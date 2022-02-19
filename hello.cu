@@ -5,7 +5,7 @@ void doubleElements(char* word)
 {
   int i;
   i = threadIdx.x;
-  word[i]='H'+i;
+  word[i]=1+i;
 }
 
 
@@ -14,7 +14,7 @@ int main()
   int N = 5;
   int *word;
 
-  size_t size = N * sizeof(char);
+  size_t size = N * sizeof(int);
 
   cudaMallocManaged(&word, size);
 
