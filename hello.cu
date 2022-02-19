@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 __global__
-void doubleElements(char* word)
+void doubleElements(int* word)
 {
   int i;
   i = threadIdx.x;
