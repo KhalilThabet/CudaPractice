@@ -28,5 +28,5 @@ int main()
 
 	maxi<<<1,1>>>(ad);
 
-	printf("%d",a[0]);
+	cout<<a[0]<<endl;
 }
