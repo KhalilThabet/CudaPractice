@@ -1,5 +1,7 @@
 #include <stdio.h>
-
+void init(int* List,int n){
+    for (int i=0;i<n;i++) List[i]=0;
+}
 __global__ void Fibonacci(int *List)
 {
     int i;
@@ -16,6 +18,7 @@ int main()
     size_t size = N * sizeof(int);
 
     cudaMallocManaged(&List, size);
+    init(List,N);
     List[0] = 1;
     List[1] = 1;
     size_t threads_per_block = 10;
