@@ -23,6 +23,7 @@ int main()
 
   doubleElements<<<1, threads_per_block>>>(word);
   cudaDeviceSynchronize();
+  for (int i=0;i<N;i++) printf("%d \t",word[i]);
 
   cudaFree(word);
 }
