@@ -1,2 +1,2 @@
 all :
-	nvcc Fibonnaci.cu -o Fibonnaci && ./Fibonnaci
+	nvcc Fibonacci.cu -o Fibonacci && ./Fibonacci

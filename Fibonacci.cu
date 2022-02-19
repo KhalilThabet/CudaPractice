@@ -20,7 +20,7 @@ int main()
     List[1] = 1;
     size_t threads_per_block = 10;
 
-    doubleElements<<<1, threads_per_block>>>(List);
+    Fibonacci<<<1, threads_per_block>>>(List);
     cudaDeviceSynchronize();
     for (int i = 0; i < N; i++)
         printf("%d \t", List[i]);
