@@ -16,7 +16,7 @@ void doubleElements(int *a, int N)
   i = blockIdx.x * blockDim.x + threadIdx.x;
   if (i < N)
   {
-    a[i] *= 2;
+    a[i] *= 3;
   }
 }
 
