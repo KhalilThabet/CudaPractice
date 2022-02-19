@@ -1,4 +1,16 @@
 #include <stdio.h>
+#include <cuda_runtime.h>
+
+__device__ void lock(int *mutex)
+{
+    while (atomicCAS(mutex, 0, 1) != 0)
+        ;
+}
+__device__ void unlock(int *mutex)
+{
+    atomicExch(mutex, 0);
+}
+
 void init(int *List, int n)
 {
     for (int i = 0; i < n; i++)
@@ -10,9 +22,9 @@ __global__ void Fibonacci(int *List,int* mutex)
     i = threadIdx.x;
     if (i > 1) //Parrallel Programming getting results for parrallel summation
     {
-        mutex(&lock);
+        lock(mutex);
         List[i] = List[i - 2] + List[i - 1];
-        mutex(&unlock);
+        unlock(mutex);
     }
 }
 
