@@ -1,2 +1,2 @@
 all :
-	nvcc hello.cu -o hello & ./hello
+	nvcc hello.cu -o hello && ./hello
