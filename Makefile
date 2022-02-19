@@ -1,2 +1,2 @@
 all :
-	nvcc Loop.cu -o Loop && ./Loop
+	nvcc Fibonnaci.cu -o Fibonnaci && ./Fibonnaci
