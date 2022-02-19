@@ -25,6 +25,7 @@ __global__ void Fibonacci(int *List,int* mutex)
         lock(mutex);
         List[i] = List[i - 2] + List[i - 1];
         unlock(mutex);
+        
     }
 }
 
