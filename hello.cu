@@ -26,7 +26,7 @@ int main()
 	cudaMalloc(&ad, size);
 	cudaMemcpy(ad, a, size, cudaMemcpyHostToDevice);
 
-	maxi<<<1,1>>>(ad, n);
+	maxi<<<1,1>>>(ad);
 
 	printf("%d",a[0]);
 }
