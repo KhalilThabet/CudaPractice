@@ -1,32 +1,64 @@
-#include <cstdio>
-#include <iostream>
+#include <stdio.h>
 
-using namespace std;
-
-__global__ void maxi(int* a)
+void init(int *a, int N)
 {
-	a[0]=1;
+  int i;
+  for (i = 0; i < N; ++i)
+  {
+    a[i] = i;
+  }
+}
+
+__global__
+void doubleElements(int *a, int N)
+{
+  int i;
+  i = blockIdx.x * blockDim.x + threadIdx.x;
+  if (i < N)
+  {
+    a[i] *= 2;
+  }
+}
+
+bool checkElementsAreDoubled(int *a, int N)
+{
+  int i;
+  for (i = 0; i < N; ++i)
+  {
+    if (a[i] != i*2) return false;
+  }
+  return true;
 }
 
 int main()
 {
+  int N = 1000;
+  int *a;
 
-	int n;
-	n = 3 >> 2;
-	int a[n];
+  size_t size = N * sizeof(int);
 
-	for (int i = 0; i < n; i++) {
-		a[i] = rand() % n;
-		cout << a[i] << "\t";
-	}
+  /*
+   * Use `cudaMallocManaged` to allocate pointer `a` available
+   * on both the host and the device.
+   */
 
+  cudaMallocManaged(&a, size);
 
-	int *ad;
-	int size = n * sizeof(int);
-	cudaMalloc(&ad, size);
-	cudaMemcpy(ad, a, size, cudaMemcpyHostToDevice);
+  init(a, N);
 
-	maxi<<<1,1>>>(ad);
+  size_t threads_per_block = 256;
+  size_t number_of_blocks = (N + threads_per_block - 1) / threads_per_block;
 
-	cout<<a[0]<<endl;
+  doubleElements<<<number_of_blocks, threads_per_block>>>(a, N);
+  cudaDeviceSynchronize();
+
+  bool areDoubled = checkElementsAreDoubled(a, N);
+  printf("All elements were doubled? %s\n", areDoubled ? "TRUE" : "FALSE");
+
+  /*
+   * Use `cudaFree` to free memory allocated
+   * with `cudaMallocManaged`.
+   */
+
+  cudaFree(a);
 }
